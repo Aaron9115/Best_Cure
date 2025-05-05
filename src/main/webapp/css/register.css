@@ -1,0 +1,209 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6b48ff, #00ddeb);
+  overflow: auto;
+}
+
+.container {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  padding: 40px;
+  width: 100%;
+  max-width: 520px;
+  transform: scale(0.95);
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    transform: scale(1);
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #6b48ff;
+  margin-bottom: 25px;
+}
+
+.logo i {
+  font-size: 36px;
+  color: #00ddeb;
+  transition: transform 0.4s ease;
+}
+
+.logo:hover i {
+  transform: rotate(360deg);
+}
+
+.registration_form .title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 30px;
+  letter-spacing: 0.5px;
+}
+
+.form_wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.input_grp {
+  display: flex;
+  gap: 15px;
+}
+
+.input_wrap {
+  position: relative;
+  flex: 1;
+}
+
+.input_wrap input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+  background: #fafafa;
+}
+
+.input_wrap input:focus {
+  border-color: #6b48ff;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(107, 72, 255, 0.1);
+}
+
+.input_wrap input::placeholder {
+  color: #bbb;
+  font-weight: 400;
+}
+
+.gender-wrap label {
+  font-size: 14px;
+  align-items: center;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.gender-options {
+  display: flex;
+  gap: 25px;
+}
+
+.gender-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+}
+
+.gender-label input[type="radio"] {
+  accent-color: #6b48ff;
+}
+
+.submit_btn {
+  width: 100%;
+  background: linear-gradient(135deg, #6b48ff, #00ddeb);
+  color: #fff;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit_btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(107, 72, 255, 0.3);
+}
+
+.text-center {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.login-text {
+  color: #6b48ff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-text:hover {
+  color: #00ddeb;
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 30px;
+    max-width: 90%;
+  }
+
+  .registration_form .title {
+    font-size: 24px;
+  }
+
+  .input_grp {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .gender-options {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 20px;
+  }
+
+  .logo {
+    font-size: 24px;
+  }
+
+  .logo i {
+    font-size: 28px;
+  }
+
+  .registration_form .title {
+    font-size: 20px;
+  }
+
+  .submit_btn {
+    padding: 12px;
+    font-size: 14px;
+  }
+}

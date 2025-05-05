@@ -1,0 +1,232 @@
+/* reset + base font */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f1f5f9;
+  color: #1e293b;
+  font-size: 20px; /* Increased base font size */
+}
+
+/* the “card” wrapper */
+.container {
+  display: flex;
+  width: 1200px;            /* Increased width */
+  max-width: 100%;
+  margin: 100px auto;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+  overflow: hidden;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* fade‑in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* left half: the form */
+.login-section {
+  flex: 1;
+  padding: 80px;            /* More padding for bigger look */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* right half: image */
+.motivation-section {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #6b7280;
+}
+.motivation-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  animation: imageFadeIn 1s ease-in-out;
+}
+@keyframes imageFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 0.8; }
+}
+
+/* logo at top */
+.logo {
+  font-size: 40px;          /* Larger logo text */
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #1e3a8a;
+}
+.logo i {
+  font-size: 44px;
+  color: #f97316;
+}
+
+/* error message */
+.error-message {
+  color: #f87171;
+  text-align: center;
+  margin-bottom: 32px;
+  font-size: 18px;
+}
+
+/* the form itself */
+.form-login {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;               /* More gap between fields */
+}
+
+/* individual field wrapper */
+.form-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* icon label inside input */
+.form-field label {
+  position: absolute;
+  left: 20px;
+  color: #94a3b8;
+  font-size: 24px;         /* Bigger icon text */
+}
+
+/* text inputs */
+.form-input {
+  width: 100%;
+  padding: 20px 20px 20px 60px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  background: #fff;
+  color: #1e293b;
+  font-size: 20px;         /* Larger input font */
+  transition: all 0.3s ease;
+}
+.form-input:focus {
+  outline: none;
+  border-color: #2dd4bf;
+  box-shadow: 0 0 12px rgba(45,212,191,0.3);
+}
+
+/* “forget password” link */
+.form-field.forget-password {
+  justify-content: flex-end;
+  margin-top: -20px;
+}
+.forget-text {
+  color: #2dd4bf;
+  font-size: 18px;
+}
+.forget-text:hover {
+  color: #14b8a6;
+}
+
+/* submit button */
+.form-field input[type="submit"] {
+  width: 100%;
+  padding: 20px;
+  border: none;
+  border-radius: 12px;
+  background: #1e3a8a;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.form-field input[type="submit"]:hover {
+  background: #2563eb;
+}
+
+/* spacing between button and register */
+.form-field:last-child {
+  margin-top: 16px;
+}
+
+/* register link */
+.register-text {
+  color: #2dd4bf;
+  font-size: 18px;
+  margin-left: 8px;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+.register-text:hover {
+  color: #14b8a6;
+}
+
+/* visually hidden */
+.hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+/* responsive tweaks */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    width: 95%;
+  }
+  .login-section, .motivation-section {
+    flex: none;
+    width: 100%;
+  }
+  .motivation-section {
+    height: 320px;
+  }
+  .login-section {
+    padding: 60px 30px;
+  }
+  .form-login {
+    gap: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-section {
+    padding: 50px 20px;
+  }
+  .logo {
+    font-size: 32px;
+  }
+  .form-input,
+  .form-field input[type="submit"],
+  .register-text,
+  .forget-text {
+    font-size: 18px;
+  }
+}

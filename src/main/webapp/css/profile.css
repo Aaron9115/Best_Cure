@@ -1,0 +1,357 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #D3D3D3;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  flex-direction: column;
+}
+
+.container {
+  width: 90vw;
+  max-width: 900px;
+  padding: 40px;
+  background: transparent;
+  text-align: left;
+  flex-grow: 1;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #1e3a8a;
+}
+
+.logo i {
+  font-size: 32px;
+  color: #f97316;
+}
+
+.logo img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+header .navigation {
+  display: flex;
+  gap: 20px;
+}
+
+footer {
+  width: 100%;
+  padding: 20px;
+  background: #2c2c2c;
+  text-align: center;
+  color: #fff;
+  position: relative;
+  bottom: 0;
+}
+
+footer p {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* ---- Profile Header ---- */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.profile-pic {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.profile-pic img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.upload-pic-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #6b48ff;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.upload-pic-btn:hover {
+  background: #00ddeb;
+}
+
+.profile-info {
+  flex-grow: 1;
+}
+
+.profile-info h2 {
+  font-size: 32px;
+  font-weight: 600;
+  color: #030303;
+  margin-bottom: 8px;
+  white-space: nowrap;
+}
+
+.profile-info p {
+  font-size: 18px;
+  color: #050505;
+}
+
+/* ---- Form Sections ---- */
+.profile-form,
+.password-section,
+.email-section {
+  margin-top: 30px;
+}
+
+/* Section Titles */
+.profile-form h3,
+.password-section h3,
+.email-section h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #131313;
+  margin-bottom: 15px;
+}
+
+/* ---- Input Groups ---- */
+.input-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4%;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.input-wrap {
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.input-wrap label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #090909;
+  margin-bottom: 8px;
+}
+
+.input-wrap input,
+.input-wrap select {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.input-wrap input:focus,
+.input-wrap select:focus {
+  border-color: #6b48ff;
+}
+
+/* Style the select to match inputs */
+.input-wrap select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8, <svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"> <polyline points="1,1 5,5 9,1" fill="none" stroke="%236b48ff" stroke-width="2"/> </svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 10px 6px;
+  cursor: pointer;
+}
+
+/* .action-buttons group (Save/Cancel) */
+.action-buttons {
+  display: none;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.action-buttons .submit-btn,
+.action-buttons .cancel-btn {
+  width: 48%;
+}
+
+/* ---- Buttons ---- */
+button,
+.submit-btn,
+.cancel-btn,
+.add-email-btn,
+.edit-btn {
+  font-size: 16px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.edit-btn {
+  background: #6b48ff;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.edit-btn:hover {
+  background: #00ddeb;
+}
+
+.submit-btn {
+  background: #6b48ff;
+  color: #fff;
+}
+
+.submit-btn:hover {
+  background: #00ddeb;
+}
+
+.cancel-btn {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.cancel-btn:hover {
+  background: #d0d0d0;
+}
+
+.add-email-btn {
+  background: #6b48ff;
+  color: #fff;
+  width: 100%;
+  text-align: center;
+}
+
+.add-email-btn:hover {
+  background: #00ddeb;
+}
+
+/* ---- Email Item ---- */
+.email-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #fafafa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.email-item i {
+  font-size: 20px;
+  color: #6b48ff;
+}
+
+.email-details p {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.email-details span {
+  font-size: 14px;
+  color: #888;
+}
+
+/* ---- Messages ---- */
+.message {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.message.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.message.error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .input-wrap {
+    width: 100%;
+  }
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .edit-btn {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-pic img {
+    width: 120px;
+    height: 120px;
+  }
+  .profile-info h2 {
+    font-size: 28px;
+  }
+  .input-wrap label {
+    font-size: 14px;
+  }
+  .input-wrap input,
+  .input-wrap select {
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+  button,
+  .submit-btn,
+  .cancel-btn,
+  .add-email-btn,
+  .edit-btn {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}
