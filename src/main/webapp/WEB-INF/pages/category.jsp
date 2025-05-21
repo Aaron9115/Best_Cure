@@ -12,7 +12,7 @@
 </head>
 
 <body>
-<!--------------------------category------section--------starts----->
+<!--------------------------category------section--------starts--->
 <section class="category-section">
     <h1>Skin Care</h1>
     <div class="product-grid">
