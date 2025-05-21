@@ -38,7 +38,7 @@ public class RegisterController extends HttpServlet {
             }
 
             UserModel userModel = extractUserModel(req);
-            userModel.setPassword(PasswordUtil.hashPassword(userModel.getPassword()));  // Hash the password
+          //  userModel.setPassword(PasswordUtil.encrypt(userModel.getPassword()));  // Hash the password
 
             Boolean isAdded = registerService.addUser(userModel);
 
@@ -72,7 +72,9 @@ public class RegisterController extends HttpServlet {
         String password = req.getParameter("password");
         String retypePassword = req.getParameter("retypePassword");
         String gender = req.getParameter("gender");
-
+        
+        
+        
         if (ValidationUtil.isNullOrEmpty(firstName)) return "First name is required.";
         if (ValidationUtil.isNullOrEmpty(lastName)) return "Last name is required.";
         if (ValidationUtil.isNullOrEmpty(username)) return "Username is required.";
@@ -94,8 +96,9 @@ public class RegisterController extends HttpServlet {
 
     /**
      * Extracts user data from request and returns a UserModel with DB-aligned column field names.
+     * @throws Exception 
      */
-    private UserModel extractUserModel(HttpServletRequest req) {
+    private UserModel extractUserModel(HttpServletRequest req) throws Exception {
         String firstName = req.getParameter("firstName");           // maps to first_name
         String lastName = req.getParameter("lastName");             // maps to last_name
         String username = req.getParameter("username");             // maps to username
@@ -103,7 +106,16 @@ public class RegisterController extends HttpServlet {
         String gender = req.getParameter("gender");                 // maps to gender
         String phone = req.getParameter("phoneNumber").replaceAll("[^\\d]", ""); // maps to phone_number
         String password = req.getParameter("password");             // maps to password (hashed later)
-
+        String retypePassword = req.getParameter("retypePassword");
+        
+    	if (password == null || !password.equals(retypePassword))
+    	{
+			throw new Exception("Passwords do not match or are invalid.");
+		}
+    	
+    	password = PasswordUtil.encrypt(username, password);
+//    	 
+    	
         UserModel userModel = new UserModel(0, firstName, lastName, username, email, gender, phone, password);
 
         // Set the default role

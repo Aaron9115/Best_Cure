@@ -1,18 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="header.jsp" %>
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profile - PharmaBestCure</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/profile.css" />
-</head>
-<body>
-<div class="logo">
-  <img src="logo.png" alt="PharmaBestCure Logo" class="logo" />
-</div>
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/profile.css" />
 
 <div class="container">
   <div class="profile-section">
@@ -54,18 +44,19 @@
               <input type="text" name="lastName" id="lastName" value="${user.lastName}" required readonly />
             </div>
           </div>
+
           <div class="input-group">
             <div class="input-wrap">
               <label>Username</label>
-              <input type="text" name="username" id="username" value="${user.username}" required readonly />
+              <input type="text" name="user_name" id="user_name" value="${user.username}" required readonly />
             </div>
             <div class="input-wrap">
               <label>Phone Number</label>
-              <input type="tel" name="phone" value="${user.phoneNumber}" placeholder="Enter phone number" readonly />
+              <input type="tel" name="phoneNumber" value="${user.phoneNumber}" placeholder="Enter phone number" readonly />
             </div>
             <div class="input-wrap">
               <label>Gender</label>
-              <select name="gender" ${user.gender != null ? '' : 'disabled'}>
+              <select name="gender" id="gender" disabled>
                 <option value="none" ${user.gender == 'none' ? 'selected' : ''}>None</option>
                 <option value="male" ${user.gender == 'male' ? 'selected' : ''}>Male</option>
                 <option value="female" ${user.gender == 'female' ? 'selected' : ''}>Female</option>
@@ -85,12 +76,11 @@
         </div>
       </form>
     </div>
+
   </div>
 </div>
 
-<footer>
-  <p>&copy; 2025 PharmaBestCure. All rights reserved.</p>
-</footer>
+<%@ include file="footer.jsp" %>
 
 <script>
   const editBtn = document.getElementById("edit-btn");
@@ -99,34 +89,39 @@
   const profilePicUpload = document.getElementById("profile-pic-upload");
   const profilePicPreview = document.getElementById("profile-pic-preview");
 
-  // Toggle editable state on "Edit" button click
+  // Enable form fields
   editBtn.addEventListener("click", () => {
     const inputs = profileForm.querySelectorAll("input, select");
     const actionButtons = profileForm.querySelector(".action-buttons");
 
     inputs.forEach((input) => {
-      input.removeAttribute("readonly");
-      input.removeAttribute("disabled");
+      if (input.hasAttribute("readonly")) input.removeAttribute("readonly");
+      if (input.hasAttribute("disabled")) input.removeAttribute("disabled");
     });
+
     actionButtons.style.display = "flex";
     editBtn.style.display = "none";
   });
 
-  // Cancel the editing and reset form on "Cancel" button click
+  // Cancel editing
   cancelBtn.addEventListener("click", () => {
     const inputs = profileForm.querySelectorAll("input, select");
     const actionButtons = profileForm.querySelector(".action-buttons");
 
     inputs.forEach((input) => {
-      input.setAttribute("readonly", true);
-      if (input.tagName === "SELECT") input.setAttribute("disabled", true);
+      if (input.tagName === "SELECT") {
+        input.setAttribute("disabled", true);
+      } else {
+        input.setAttribute("readonly", true);
+      }
     });
+
     actionButtons.style.display = "none";
     editBtn.style.display = "block";
-    profileForm.reset();  // Reset form to original values
+    profileForm.reset();
   });
 
-  // Update profile picture preview on file selection
+  // Profile picture preview
   profilePicUpload.addEventListener("change", (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -137,10 +132,8 @@
       reader.readAsDataURL(file);
     }
   });
+
+  profileForm.addEventListener("submit", function () {
+    console.log("🚀 Form is submitting");
+  });
 </script>
-
-<!-- ------Footer------ -->>
-
-</body>
-<%@ include file="footer.jsp" %>
-</html>

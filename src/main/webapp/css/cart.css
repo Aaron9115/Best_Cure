@@ -1,9 +1,13 @@
+/* Main cart container */
 .cart-container {
     max-width: 1200px;
     margin: 2rem auto;
     padding: 0 1rem;
+    /* Adding top padding to accommodate the header */
+    padding-top: 4rem;
 }
 
+/* Cart items table */
 .cart-items table {
     width: 100%;
     border-collapse: collapse;
@@ -16,6 +20,7 @@
     border-bottom: 1px solid #ddd;
 }
 
+/* Product info styling */
 .product-info {
     display: flex;
     align-items: center;
@@ -28,12 +33,15 @@
     object-fit: contain;
 }
 
+/* Quantity input field */
 .quantity input {
     width: 60px;
     padding: 0.5rem;
 }
 
-.remove-btn {
+/* Remove button */
+.remove-btn, 
+.action button {  /* Adding style for the 'Remove' button in the form */
     background: #ff4444;
     color: white;
     border: none;
@@ -43,10 +51,12 @@
     transition: background 0.3s;
 }
 
-.remove-btn:hover {
+.remove-btn:hover,
+.action button:hover {
     background: #cc0000;
 }
 
+/* Cart summary section */
 .cart-summary {
     background: #f9f9f9;
     padding: 1.5rem;
@@ -67,6 +77,7 @@
     border-bottom: none;
 }
 
+/* Action buttons */
 .action-buttons {
     display: flex;
     justify-content: space-between;
@@ -96,6 +107,7 @@
     background: #45a049;
 }
 
+/* Empty cart message */
 .empty-cart {
     text-align: center;
     padding: 2rem;
@@ -103,6 +115,7 @@
     border-radius: 8px;
 }
 
+/* Alert messages */
 .alert {
     padding: 1rem;
     margin-bottom: 1rem;

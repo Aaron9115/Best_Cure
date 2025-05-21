@@ -51,7 +51,7 @@
               <th>Date</th>
               <th>Total</th>
               <th>Status</th>
-              <th>Actions</th>
+             
             </tr>
           </thead>
           <tbody>
@@ -64,16 +64,7 @@
                 <td>
                   <span class="status ${order.status.toLowerCase()}">${order.status}</span>
                 </td>
-                <td>
-                  <a href="${pageContext.request.contextPath}/admin/orderDetails?id=${order.orderId}" class="action-btn view">
-                    <i class="fas fa-eye"></i>
-                  </a>
-                  <c:if test="${order.status == 'PENDING'}">
-                    <a href="${pageContext.request.contextPath}/admin/updateOrderStatus?id=${order.orderId}&status=COMPLETED" class="action-btn complete">
-                      <i class="fas fa-check"></i>
-                    </a>
-                  </c:if>
-                </td>
+               
               </tr>
             </c:forEach>
           </tbody>

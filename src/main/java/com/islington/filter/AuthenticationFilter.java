@@ -48,7 +48,7 @@ public class AuthenticationFilter implements Filter {
         String userRole = null;
 
         if (session != null) {
-            userRole = (String) session.getAttribute("role");
+            userRole = (String) session.getAttribute("user_role");
         }
 
         if (userRole == null) {

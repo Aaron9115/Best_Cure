@@ -1,55 +1,49 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="header.jsp" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${product.productName} | BestCure</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/productDetails.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Product Details | BestCure</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/footer.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/products.css" />
 </head>
 <body>
-
-<section class="product-detail-section">
-    <div class="container">
-        <div class="product-detail">
-            <div class="product-images">
-                <div class="main-image">
-                    <img src="${pageContext.request.contextPath}/resources/products/${product.image}" 
-                         alt="${product.productName}">
+<!-- Product Details Section -->
+<section class="product-details-section">
+    <c:choose>
+        <c:when test="${not empty product}">
+            <div class="product-details-container">
+                <div class="product-image">
+                    <img src="${pageContext.request.contextPath}/resources/products/${product.image}"
+                         alt="${product.productName}"
+                         onerror="this.src='${pageContext.request.contextPath}/resources/default-product.png'" />
+                </div>
+                <div class="product-info">
+                    <h1>${product.productName}</h1>
+                    <div class="stars">★★★★★</div>
+                    <div class="price">Rs ${product.productPrice}</div>
+                    <div class="original-price">Rs ${product.productPrice + 10}</div>
+                    <div class="product-description">${product.productDescription != null ? product.productDescription : 'No description available'}</div>
+                    <div class="stock-info">In Stock: ${product.productQuantity} items</div>
+                    <form action="${pageContext.request.contextPath}/cart" method="post" class="add-cart-form">
+                        <div class="qty-label">Qty:</div>
+                        <input type="number" name="quantity" value="1" min="1" max="${product.productQuantity}" class="qty-input" />
+                        <div class="unit-label">/Item</div>
+                        <input type="hidden" name="action" value="add" />
+                        <input type="hidden" name="productId" value="${product.productId}" />
+                        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                    </form>
                 </div>
             </div>
-            
-            <div class="product-info">
-                <h1>${product.productName}</h1>
-                <div class="product-meta">
-                    <span class="category">${product.productCategory}</span>
-                    <span class="price">$${product.productPrice}</span>
-                </div>
-                
-                <div class="product-description">
-                    <h3>Description</h3>
-                    <p>${product.productDescription}</p>
-                </div>
-                
-                <form action="${pageContext.request.contextPath}/cart" method="post" class="add-to-cart">
-                    <input type="hidden" name="action" value="add">
-                    <input type="hidden" name="productId" value="${product.productId}">
-                    
-                    <div class="quantity-selector">
-                        <label for="quantity">Quantity:</label>
-                        <input type="number" id="quantity" name="quantity" value="1" min="1" max="${product.productQuantity}">
-                    </div>
-                    
-                    <button type="submit" class="add-to-cart-btn">
-                        <i class="fas fa-cart-plus"></i> Add to Cart
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
+        </c:when>
+        <c:otherwise>
+            <div class="error-message">Product not found.</div>
+        </c:otherwise>
+    </c:choose>
 </section>
 
 <%@ include file="footer.jsp" %>

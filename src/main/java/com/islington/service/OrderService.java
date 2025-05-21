@@ -184,4 +184,34 @@ public class OrderService {
         }
         return orders;
     }
+
+
+
+public List<OrderModel> getOrdersByStatus(String status) {
+    List<OrderModel> orders = new ArrayList<>();
+    String query = "SELECT * FROM `order` WHERE status = ?";
+    try (Connection conn = DbConfig.getDbConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, status);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            orders.add(mapOrderFromResultSet(rs));
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return orders;
+}
+
+
+
+private OrderModel mapOrderFromResultSet(ResultSet rs) throws SQLException {
+    OrderModel order = new OrderModel();
+    order.setOrderId(rs.getInt("order_id"));
+    order.setUserId(rs.getInt("user_id"));
+    order.setTotalAmount(rs.getDouble("total_price"));
+    order.setOrderDate(new Date(rs.getLong("order_date") * 1000L));
+    order.setStatus(rs.getString("status"));
+    return order;
+}
 }

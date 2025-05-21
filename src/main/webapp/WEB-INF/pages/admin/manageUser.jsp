@@ -41,7 +41,7 @@
         <h2>Admin</h2>
         <ul>
             <li><a href="${pageContext.request.contextPath}/admin/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/user"><i class="fas fa-user"></i> Profile</a></li>
+            <li class="active"><a href="${pageContext.request.contextPath}/admin/user"><i class="fas fa-user"></i> User</a></li>
             <li><a href="${pageContext.request.contextPath}/admin/manageProduct"><i class="fas fa-box"></i> Products</a></li>
             <li><a href="${pageContext.request.contextPath}/admin/orderList"><i class="fas fa-list"></i> Order lists</a></li>
             <li><a href="${pageContext.request.contextPath}/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>

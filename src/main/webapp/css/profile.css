@@ -1,357 +1,247 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
-
-body {
-  background: #D3D3D3;
-  margin: 0;
-  height: 100vh;
+/* Main wrapper: add padding from top so content doesn't go under header */
+.main-wrapper {
+  padding: 80px 1rem 2rem; /* Adjust 80px if your header height differs */
   display: flex;
   justify-content: center;
-  align-items: center;
-  overflow: auto;
-  flex-direction: column;
+  background-color: #f5f7fa; /* subtle background */
+  min-height: 100vh;
 }
 
-.container {
-  width: 90vw;
-  max-width: 900px;
-  padding: 40px;
-  background: transparent;
-  text-align: left;
-  flex-grow: 1;
-}
-
-header {
+/* Container for profile section */
+.container.profile-section {
+  background-color: #fff;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  max-width: 800px;
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.logo {
-  font-size: 28px;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  color: #1e3a8a;
-}
-
-.logo i {
-  font-size: 32px;
-  color: #f97316;
-}
-
-.logo img {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
-}
-
-header .navigation {
-  display: flex;
-  gap: 20px;
-}
-
-footer {
-  width: 100%;
-  padding: 20px;
-  background: #2c2c2c;
-  text-align: center;
-  color: #fff;
-  position: relative;
-  bottom: 0;
-}
-
-footer p {
-  font-size: 14px;
-  margin-top: 10px;
-}
-
-/* ---- Profile Header ---- */
+/* Profile header */
 .profile-header {
   display: flex;
   align-items: center;
-  gap: 30px;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  gap: 1.5rem;
 }
 
+/* Profile picture container */
 .profile-pic {
   position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #ddd;
   flex-shrink: 0;
+  background-color: #e9ecef;
 }
 
 .profile-pic img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  display: block;
+  border-radius: 50%;
 }
 
+/* Camera upload button overlay */
 .upload-pic-btn {
   position: absolute;
-  bottom: 0;
-  right: 0;
-  background: #6b48ff;
-  color: #fff;
+  bottom: 6px;
+  right: 6px;
+  background-color: #007bff;
   border: none;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 8px 10px;
+  color: white;
   cursor: pointer;
-  transition: background 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease;
+  font-size: 16px;
 }
 
 .upload-pic-btn:hover {
-  background: #00ddeb;
+  background-color: #0056b3;
 }
 
-.profile-info {
-  flex-grow: 1;
-}
-
+/* Profile info */
 .profile-info h2 {
-  font-size: 32px;
-  font-weight: 600;
-  color: #030303;
-  margin-bottom: 8px;
-  white-space: nowrap;
+  margin: 0 0 0.3rem 0;
+  font-weight: 700;
+  font-size: 1.8rem;
 }
 
 .profile-info p {
-  font-size: 18px;
-  color: #050505;
+  margin: 0;
+  color: #555;
+  font-size: 1rem;
 }
 
-/* ---- Form Sections ---- */
-.profile-form,
-.password-section,
-.email-section {
-  margin-top: 30px;
+/* Edit button */
+.edit-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  height: fit-content;
 }
 
-/* Section Titles */
-.profile-form h3,
-.password-section h3,
-.email-section h3 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #131313;
-  margin-bottom: 15px;
+.edit-btn:hover {
+  background-color: #0056b3;
 }
 
-/* ---- Input Groups ---- */
+/* Form layout: grid 2 columns x 2 rows for inputs */
+.form-wrap {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 1.5rem 2rem;
+}
+
+/* Allow inputs inside input-group to participate in grid */
 .input-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4%;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  display: contents;
 }
 
+/* Input wrap styles */
 .input-wrap {
-  width: 48%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
 }
 
 .input-wrap label {
-  font-size: 16px;
+  margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #090909;
-  margin-bottom: 8px;
+  font-size: 1rem;
+  color: #333;
 }
 
 .input-wrap input,
 .input-wrap select {
-  width: 100%;
-  padding: 12px 16px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #fff;
-  color: #333;
-  outline: none;
-  transition: border-color 0.3s;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .input-wrap input:focus,
 .input-wrap select:focus {
-  border-color: #6b48ff;
+  border-color: #007bff;
+  background-color: #fff;
+  outline: none;
 }
 
-/* Style the select to match inputs */
-.input-wrap select {
-  appearance: none;
-  background-image: url('data:image/svg+xml;utf8, <svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"> <polyline points="1,1 5,5 9,1" fill="none" stroke="%236b48ff" stroke-width="2"/> </svg>');
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 10px 6px;
-  cursor: pointer;
+.input-wrap input:read-only,
+.input-wrap select:disabled {
+  background-color: #e9ecef;
+  color: #555;
+  cursor: not-allowed;
 }
 
-/* .action-buttons group (Save/Cancel) */
+/* Action buttons below the form, full width spanning both columns */
 .action-buttons {
-  display: none;
-  gap: 15px;
-  margin-top: 10px;
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
-.action-buttons .submit-btn,
-.action-buttons .cancel-btn {
-  width: 48%;
-}
-
-/* ---- Buttons ---- */
-button,
+/* Buttons styling */
 .submit-btn,
-.cancel-btn,
-.add-email-btn,
-.edit-btn {
-  font-size: 16px;
-  padding: 12px 24px;
-  border-radius: 8px;
+.cancel-btn {
+  padding: 0.6rem 1.4rem;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.edit-btn {
-  background: #6b48ff;
-  color: #fff;
-  margin-top: 10px;
-}
-
-.edit-btn:hover {
-  background: #00ddeb;
+  font-size: 1rem;
+  min-width: 110px;
+  transition: background-color 0.3s ease;
 }
 
 .submit-btn {
-  background: #6b48ff;
-  color: #fff;
+  background-color: #28a745;
+  color: white;
 }
 
 .submit-btn:hover {
-  background: #00ddeb;
+  background-color: #218838;
 }
 
 .cancel-btn {
-  background: #e0e0e0;
-  color: #333;
+  background-color: #dc3545;
+  color: white;
 }
 
 .cancel-btn:hover {
-  background: #d0d0d0;
+  background-color: #c82333;
 }
 
-.add-email-btn {
-  background: #6b48ff;
-  color: #fff;
-  width: 100%;
-  text-align: center;
-}
-
-.add-email-btn:hover {
-  background: #00ddeb;
-}
-
-/* ---- Email Item ---- */
-.email-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  background: #fafafa;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-
-.email-item i {
-  font-size: 20px;
-  color: #6b48ff;
-}
-
-.email-details p {
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-
-.email-details span {
-  font-size: 14px;
-  color: #888;
-}
-
-/* ---- Messages ---- */
+/* Success and error messages */
 .message {
-  padding: 12px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
   border-radius: 8px;
-  margin-bottom: 20px;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 1rem;
   text-align: center;
 }
 
 .message.success {
-  background: #d4edda;
+  background-color: #d4edda;
   color: #155724;
+  border: 1px solid #c3e6cb;
 }
 
 .message.error {
-  background: #f8d7da;
+  background-color: #f8d7da;
   color: #721c24;
+  border: 1px solid #f5c6cb;
 }
 
-/* ---- Responsive ---- */
-@media (max-width: 768px) {
-  .input-wrap {
+/* Responsive for smaller screens */
+@media (max-width: 600px) {
+  .main-wrapper {
+    padding-top: 100px;
+  }
+
+  .form-wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .action-buttons {
+    justify-content: stretch;
+    flex-direction: column;
+  }
+
+  .submit-btn,
+  .cancel-btn {
     width: 100%;
   }
+
   .profile-header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    gap: 1rem;
   }
-  .edit-btn {
-    align-self: flex-start;
-  }
-}
 
-@media (max-width: 480px) {
-  .profile-pic img {
-    width: 120px;
-    height: 120px;
+  .profile-info {
+    text-align: center;
   }
-  .profile-info h2 {
-    font-size: 28px;
-  }
-  .input-wrap label {
-    font-size: 14px;
-  }
-  .input-wrap input,
-  .input-wrap select {
-    font-size: 14px;
-    padding: 10px 14px;
-  }
-  button,
-  .submit-btn,
-  .cancel-btn,
-  .add-email-btn,
+
   .edit-btn {
-    font-size: 14px;
-    padding: 10px 20px;
+    width: 100%;
+  }
+
+  .profile-pic {
+    width: 100px;
+    height: 100px;
   }
 }

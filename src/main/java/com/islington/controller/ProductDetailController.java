@@ -7,32 +7,38 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 
-@WebServlet("/product")
+@WebServlet(urlPatterns = {"/productDetails"})
 public class ProductDetailController extends HttpServlet {
-    private final ProductService productService = new ProductService();
+    private static final long serialVersionUID = 1L;
+    private ProductService productService;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    @Override
+    public void init() throws ServletException {
+        productService = new ProductService();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String productId = request.getParameter("id");
-        
-        if (productId == null || productId.trim().isEmpty()) {
-            response.sendRedirect(request.getContextPath() + "/products");
-            return;
-        }
-
         try {
-            ProductModel product = productService.getProductById(Integer.parseInt(productId));
-            if (product != null) {
-                request.setAttribute("product", product);
-                request.getRequestDispatcher("/WEB-INF/pages/productDetail.jsp").forward(request, response);
+            String productId = req.getParameter("productId");
+            if (productId != null && !productId.trim().isEmpty()) {
+                ProductModel product = productService.getProductById(Integer.parseInt(productId));
+                if (product != null) {
+                    req.setAttribute("product", product);
+                } else {
+                    req.setAttribute("error", "Product not found");
+                }
             } else {
-                response.sendRedirect(request.getContextPath() + "/products");
+                req.setAttribute("error", "Invalid product ID");
             }
-        } catch (NumberFormatException e) {
-            response.sendRedirect(request.getContextPath() + "/products");
+            req.getRequestDispatcher("/WEB-INF/pages/product-details.jsp").forward(req, resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+            req.setAttribute("error", "Error loading product details");
+            req.getRequestDispatcher("/WEB-INF/pages/product-details.jsp").forward(req, resp);
         }
     }
 }

@@ -21,23 +21,44 @@ public class ProfileService {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new UserModel(
-                    rs.getInt("user_id"),
-                    rs.getString("first_name"),
-                    rs.getString("last_name"),
-                    rs.getString("user_name"),
-                    rs.getString("user_email"),
-                    rs.getString("gender"),
-                    rs.getString("phone_number"),
-                    rs.getString("user_password"),
-                    rs.getString("user_role"),
-                    rs.getString("profile_picture")
-                );
+                return mapUserFromResultSet(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public UserModel getUserByEmail(String email) {
+        String query = "SELECT * FROM user WHERE user_email = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return mapUserFromResultSet(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private UserModel mapUserFromResultSet(ResultSet rs) throws SQLException {
+        UserModel user = new UserModel();
+        user.setUserId(rs.getInt("user_id"));
+        user.setFirstName(rs.getString("first_name"));
+        user.setLastName(rs.getString("last_name"));
+        user.setUsername(rs.getString("user_name"));
+        user.setEmail(rs.getString("user_email"));
+        user.setGender(rs.getString("gender"));
+        user.setPhoneNumber(rs.getString("phone_number"));
+        user.setPassword(rs.getString("user_password"));
+        user.setRole(rs.getString("user_role"));
+        user.setProfilePicture(rs.getString("profile_picture"));
+        return user;
     }
 
     public boolean updateUserProfile(UserModel user) {
@@ -63,4 +84,4 @@ public class ProfileService {
             return false;
         }
     }
-    }
+}

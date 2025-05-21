@@ -38,7 +38,7 @@
         <li><a href="${pageContext.request.contextPath}/contact">CONTACT</a></li>
         <li><a href="${pageContext.request.contextPath}/about">ABOUT</a></li>
         <c:choose>
-            <c:when test="${not empty sessionScope.email}">
+            <c:when test="${not empty sessionScope.user_email}">
                 <li><a href="${pageContext.request.contextPath}/profile">PROFILE</a></li>
                 <li><a href="${pageContext.request.contextPath}/logout">LOGOUT</a></li>
             </c:when>
@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function() {
             : '<i class="fas fa-bars"></i>';
     });
     
-    // Close menu when clicking on a link
     document.querySelectorAll('.navbar a').forEach(link => {
         link.addEventListener('click', function() {
             if (window.innerWidth <= 992) {
@@ -72,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Close menu when window is resized above breakpoint
     window.addEventListener('resize', function() {
         if (window.innerWidth > 992) {
             navbar.classList.remove('active');

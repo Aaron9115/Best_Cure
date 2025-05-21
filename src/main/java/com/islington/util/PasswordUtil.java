@@ -1,76 +1,127 @@
+
 package com.islington.util;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class PasswordUtil {
+	private static final String ENCRYPT_ALGO = "AES/GCM/NoPadding";
 
+    private static final int TAG_LENGTH_BIT = 128; // must be one of {128, 120, 112, 104, 96}
+    private static final int IV_LENGTH_BYTE = 12;
     private static final int SALT_LENGTH_BYTE = 16;
-    private static final int HASH_ITERATIONS = 65536;
-    private static final int KEY_LENGTH = 256; // bits
-    private static final String HASH_ALGORITHM = "PBKDF2WithHmacSHA256";
+    private static final Charset UTF_8 = StandardCharsets.UTF_8;
 
-    // Generate a random salt
-    public static byte[] getRandomSalt() {
-        byte[] salt = new byte[SALT_LENGTH_BYTE];
-        new SecureRandom().nextBytes(salt);
-        return salt;
+   
+    public static byte[] getRandomNonce(int numBytes) {
+        byte[] nonce = new byte[numBytes];
+        new SecureRandom().nextBytes(nonce);
+        return nonce;
     }
 
-    // Hash password with a salt using PBKDF2
-    public static String hashPassword(String password) {
-        try {
-            // Generate a salt
-            byte[] salt = getRandomSalt();
-            // Derive the hash using PBKDF2
-            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, HASH_ITERATIONS, KEY_LENGTH);
-            SecretKeyFactory factory = SecretKeyFactory.getInstance(HASH_ALGORITHM);
-            byte[] hash = factory.generateSecret(spec).getEncoded();
-
-            // Combine salt and hash and encode in Base64 for storage
-            byte[] hashWithSalt = new byte[salt.length + hash.length];
-            System.arraycopy(salt, 0, hashWithSalt, 0, salt.length);
-            System.arraycopy(hash, 0, hashWithSalt, salt.length, hash.length);
-
-            return Base64.getEncoder().encodeToString(hashWithSalt); // Base64 encoding for storage
-        } catch (Exception ex) {
-            Logger.getLogger(PasswordUtil.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
+    // AES secret key
+    public static SecretKey getAESKey(int keysize) throws NoSuchAlgorithmException {
+        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+        keyGen.init(keysize, SecureRandom.getInstanceStrong());
+        return keyGen.generateKey();
     }
 
-    public static boolean verifyPassword(String password, String storedHash) {
-        try {
-            byte[] hashWithSalt = Base64.getDecoder().decode(storedHash);  // Decode stored hash
-            byte[] salt = new byte[SALT_LENGTH_BYTE];
-            System.arraycopy(hashWithSalt, 0, salt, 0, salt.length);
-
-            byte[] storedHashBytes = new byte[hashWithSalt.length - salt.length];
-            System.arraycopy(hashWithSalt, salt.length, storedHashBytes, 0, storedHashBytes.length);
-
-            // Hash the input password with the same salt
-            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, HASH_ITERATIONS, KEY_LENGTH);
-            SecretKeyFactory factory = SecretKeyFactory.getInstance(HASH_ALGORITHM);
-            byte[] hash = factory.generateSecret(spec).getEncoded();
-
-            // Compare the stored hash and the newly generated hash
-            for (int i = 0; i < storedHashBytes.length; i++) {
-                if (storedHashBytes[i] != hash[i]) {
-                    return false;
-                }
-            }
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return false;
-        }
+    // Password derived AES 256 bits secret key
+    public static SecretKey getAESKeyFromPassword(char[] password, byte[] salt){
+           	try {
+           		SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+           		// iterationCount = 65536
+           		// keyLength = 256
+           		KeySpec spec = new PBEKeySpec(password, salt, 65536, 256);
+           		SecretKey secret = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
+           		return secret;
+       		} catch (NoSuchAlgorithmException ex) {
+       			Logger.getLogger(PasswordUtil.class.getName()).log(Level.SEVERE, null, ex);
+           	} catch (InvalidKeySpecException ex) {
+           		Logger.getLogger(PasswordUtil.class.getName()).log(Level.SEVERE, null, ex);
+           	}
+       		return null;
     }
 
+    // return a base64 encoded AES encrypted text
+    public static String encrypt(String employee_id, String password){
+    	try {
+		    // 16 bytes salt
+		    byte[] salt = getRandomNonce(SALT_LENGTH_BYTE);
+		
+		    // GCM recommended 12 bytes iv?
+		    byte[] iv = getRandomNonce(IV_LENGTH_BYTE);
+		
+		    // secret key from password
+		    SecretKey aesKeyFromPassword = getAESKeyFromPassword(employee_id.toCharArray(), salt);
+		
+		    Cipher cipher = Cipher.getInstance(ENCRYPT_ALGO);
+		
+		    // ASE-GCM needs GCMParameterSpec
+		    cipher.init(Cipher.ENCRYPT_MODE, aesKeyFromPassword, new GCMParameterSpec(TAG_LENGTH_BIT, iv));
+		
+		    byte[] cipherText = cipher.doFinal(password.getBytes());
+		
+		    // prefix IV and Salt to cipher text
+		    byte[] cipherTextWithIvSalt = ByteBuffer.allocate(iv.length + salt.length + cipherText.length)
+		            .put(iv)
+		            .put(salt)
+		            .put(cipherText)
+		            .array();
+		
+		    // string representation, base64, send this string to other for decryption.
+		    return Base64.getEncoder().encodeToString(cipherTextWithIvSalt);
+    	}catch(Exception ex) {
+    		return null;
+    	}
+
+    }
+
+    
+    public static String decrypt(String encryptedPassword, String user_email) {
+    	try {
+    		byte[] decode = Base64.getDecoder().decode(encryptedPassword.getBytes(UTF_8));
+
+    		ByteBuffer bb = ByteBuffer.wrap(decode);
+
+    		byte[] iv = new byte[IV_LENGTH_BYTE];
+    		bb.get(iv);
+
+    		byte[] salt = new byte[SALT_LENGTH_BYTE];
+    		bb.get(salt);
+
+    		byte[] cipherText = new byte[bb.remaining()];
+    		bb.get(cipherText);
+
+    		SecretKey aesKeyFromPassword = PasswordUtil.getAESKeyFromPassword(user_email.toCharArray(), salt);
+
+    		Cipher cipher = Cipher.getInstance(ENCRYPT_ALGO);
+    		cipher.init(Cipher.DECRYPT_MODE, aesKeyFromPassword, new GCMParameterSpec(TAG_LENGTH_BIT, iv));
+
+    		byte[] plainText = cipher.doFinal(cipherText);
+
+    		return new String(plainText, UTF_8);
+    	} catch (Exception ex) {
+    		System.out.println("[ERROR] Password decryption failed for user: " + user_email);
+    		ex.printStackTrace(); // TEMPORARY - remove in production
+    		return null;
+    	}
+    
+	}
+ 
 }
