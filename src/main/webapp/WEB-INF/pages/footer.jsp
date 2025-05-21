@@ -7,13 +7,13 @@
   <div class="b-c">
     <div class="b">
       <a href="${pageContext.request.contextPath}/home">
-        <img src="${pageContext.request.contextPath}/images/logo.png" alt="BestCure Logo" />
+        <img src="${pageContext.request.contextPath}/resources/logo.png" alt="BestCure Logo" />
       </a>
       <p>BestCure is an online‐based pharmacy website offering a wide range of medical products...</p>
       <div class="social">
-        <a href="#"><img src="${pageContext.request.contextPath}/images/face.png" alt="Facebook Page" aria-label="Facebook"></a>
-        <a href="#"><img src="${pageContext.request.contextPath}/images/insta.png" alt="Instagram Page" aria-label="Instagram"></a>
-        <a href="#"><img src="${pageContext.request.contextPath}/images/twitter.png" alt="Twitter Page" aria-label="Twitter"></a>
+        <a href="#"><img src="${pageContext.request.contextPath}/resources/face.png" alt="Facebook Page" aria-label="Facebook"></a>
+        <a href="#"><img src="${pageContext.request.contextPath}/resources/insta.png" alt="Instagram Page" aria-label="Instagram"></a>
+        <a href="#"><img src="${pageContext.request.contextPath}/resources/twtr.png" alt="Twitter Page" aria-label="Twitter"></a>
       </div>
     </div>
 

@@ -11,14 +11,14 @@
 
 body {
   overflow-x: hidden;
+  padding-top: 70px;
 }
 
 #header {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 5vw;
+  padding: 15px 5vw;
   background: #E3E6F3;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   position: fixed;
@@ -26,33 +26,76 @@ body {
   left: 0;
   width: 100%;
   z-index: 999;
+  gap: 20px;
 }
 
 #header .first {
-  max-width: 180px;
+  max-width: 80px;
   height: auto;
   object-fit: contain;
 }
 
+/* Search Bar Styles */
+.search-container {
+  flex: 1;
+  max-width: 500px;
+  margin: 0 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.search-input:focus {
+  border-color: #088178;
+  box-shadow: 0 2px 8px rgba(8, 129, 120, 0.1);
+}
+
+.search-button {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #088178;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.search-container form {
+  position: relative;
+}
+
+/* Navigation Styles */
 .navbar {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  gap: 15px;
+  gap: 20px;
 }
 
 .navbar li {
   list-style: none;
-  padding: 10px;
   position: relative;
+  flex-shrink: 0;
 }
 
 .navbar li a {
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
   color: #1a1a1a;
   transition: 0.3s ease;
+  padding: 10px 0;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .navbar li a:hover,
@@ -66,7 +109,7 @@ body {
   height: 2px;
   background: #088178;
   position: absolute;
-  bottom: -4px;
+  bottom: 0;
   left: 0;
   transition: width 0.3s ease;
 }
@@ -76,20 +119,126 @@ body {
   width: 100%;
 }
 
-@media (max-width: 768px) {
+/* Mobile menu toggle */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #1a1a1a;
+  margin-left: auto;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .navbar {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 992px) {
   #header {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .search-container {
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+    margin: 10px 0 0 0;
+  }
+  
+  .navbar {
+    position: fixed;
+    top: 80px;
+    left: -100%;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background: #E3E6F3;
     flex-direction: column;
-    align-items: flex-start;
-    padding: 10px 5vw;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px 0;
+    gap: 25px;
+    transition: left 0.3s ease;
+    overflow-y: auto;
   }
 
-  .navbar {
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
+  .navbar.active {
+    left: 0;
+  }
+
+  .mobile-menu-btn {
+    display: block;
   }
 
   .navbar li {
     width: 100%;
+    text-align: center;
   }
+
+  .navbar li a {
+    padding: 15px;
+    width: 100%;
+    display: block;
+  }
+
+  .navbar li a::after {
+    bottom: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  #header {
+    padding: 15px;
+  }
+  
+  #header .first {
+    max-width: 60px;
+  }
+  
+  .navbar li a {
+    font-size: 14px;
+  }
+}
+/* Add these styles to your existing header.css */
+
+.search-container {
+    flex: 1;
+    max-width: 600px;
+    margin: 0 20px;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 15px;
+    padding-right: 40px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.search-button {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #666;
+    cursor: pointer;
+}
+
+.search-button:hover {
+    color: #3498db;
 }

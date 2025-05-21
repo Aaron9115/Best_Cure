@@ -17,40 +17,35 @@ public class LoginService {
         try {
             dbConn = DbConfig.getDbConnection();
         } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();  // Log error or use a logger
+            ex.printStackTrace();  // Use proper logging in production
         }
     }
 
     /**
-     * Authenticates a user based on the provided email and password.
+     * Authenticates a user using email and password.
      *
      * @param email    the user's email
-     * @param password the user's password
-     * @return a UserModel object if the user is found and the password is correct; otherwise, null
+     * @param password the user's raw password
+     * @return UserModel if authenticated, null otherwise
      */
     public UserModel loginUser(String email, String password) {
         if (dbConn == null) {
-            System.out.println("Database connection error.");
+            System.out.println("Database connection not initialized.");
             return null;
         }
 
-        // SQL query to fetch user details based on email
         String query = "SELECT user_id, first_name, last_name, user_name, user_email, gender, phone_number, user_password, user_role "
                      + "FROM user WHERE user_email = ?";
 
-        // Use try-with-resources to ensure the PreparedStatement and ResultSet are closed automatically
         try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
-            stmt.setString(1, email);  // Set email parameter in query
+            stmt.setString(1, email);
 
-            // Execute the query and get the result set
             try (ResultSet result = stmt.executeQuery()) {
                 if (result.next()) {
-                    // User found, check the password
                     String dbPasswordHash = result.getString("user_password");
 
-                    // Verify password using PasswordUtil (which compares the hashed passwords)
                     if (PasswordUtil.verifyPassword(password, dbPasswordHash)) {
-                        // Password matches, create UserModel and set attributes
+                        // Valid password, create and return UserModel
                         UserModel user = new UserModel();
                         user.setUserId(result.getInt("user_id"));
                         user.setFirstName(result.getString("first_name"));
@@ -59,20 +54,19 @@ public class LoginService {
                         user.setEmail(result.getString("user_email"));
                         user.setGender(result.getString("gender"));
                         user.setPhoneNumber(result.getString("phone_number"));
-                        user.setRole(result.getString("user_role"));  // Set user role (admin, user, etc.)
-                        return user;  // Return the populated UserModel object
+                        user.setRole(result.getString("user_role"));  // Role: "admin" or "user"
+                        return user;
                     } else {
-                        System.out.println("Password mismatch for email: " + email);
+                        System.out.println("Incorrect password for: " + email);
                     }
                 } else {
-                    System.out.println("No user found with email: " + email);
+                    System.out.println("User not found with email: " + email);
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace();  // Replace with proper logging in production
         }
 
-        // If no matching user or incorrect password, return null
-        return null;
+        return null;  // Authentication failed
     }
 }

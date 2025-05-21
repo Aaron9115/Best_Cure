@@ -1,7 +1,7 @@
 package com.islington.controller;
 
-import com.islington.service.ProductService;
 import com.islington.model.ProductModel;
+import com.islington.service.ProductService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(urlPatterns = { "/products" })
-public class ProductController extends HttpServlet {
+public class ShopController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ProductService productService;
 
@@ -24,15 +24,21 @@ public class ProductController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        HttpSession session = req.getSession(false);
+        // ❌ Removed login check to allow public access to products
 
-        if (session == null || session.getAttribute("email") == null) {
-            req.getSession(true).setAttribute("redirectAfterLogin", "/products");
-            resp.sendRedirect(req.getContextPath() + "/login");
-            return;
+        // Get the category from request
+        String category = req.getParameter("category");
+        List<ProductModel> products;
+
+        // Filter by category if specified
+        if (category != null && !category.trim().isEmpty()) {
+            products = productService.getProductsByCategory(category);
+            req.setAttribute("category", category);
+        } else {
+            products = productService.getAllProducts();
         }
 
-        List<ProductModel> products = productService.getAllProducts();
+        // Set product list and forward to JSP
         req.setAttribute("products", products);
         req.getRequestDispatcher("/WEB-INF/pages/products.jsp").forward(req, resp);
     }

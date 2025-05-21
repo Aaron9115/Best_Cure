@@ -1,92 +1,78 @@
 package com.islington.service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.islington.config.DbConfig;
+import com.islington.model.ProductModel;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.islington.config.DbConfig;
-import com.islington.model.ProgramModel;
-import com.islington.model.StudentModel;
-
-/**
- * Service class for interacting with the database to retrieve dashboard-related data.
- * This class handles database connections and performs queries to fetch student information.
- */
 public class DashboardService {
 
-    private Connection dbConn;
-    private boolean isConnectionError = false;
+    // Get total number of users
+    public int getTotalUsers() {
+        String query = "SELECT COUNT(*) FROM user";
+        try (Connection conn = DbConfig.getDbConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
 
-    /**
-     * Constructor that initializes the database connection. Sets the connection error
-     * flag if the connection fails.
-     */
-    public DashboardService() {
-        try {
-            dbConn = DbConfig.getDbConnection();
-        } catch (SQLException | ClassNotFoundException ex) {
-            // Log and handle exceptions related to database connection
-            ex.printStackTrace();
-            isConnectionError = true;
-        }
-    }
-
-    /**
-     * Retrieves all student information from the database.
-     * 
-     * @return A list of StudentModel objects containing student data. Returns null if
-     *         there is a connection error or if an exception occurs during query execution.
-     */
-    public List<StudentModel> getAllStudentsInfo() {
-        if (isConnectionError) {
-            System.out.println("Connection Error!");
-            return null;
-        }
-
-        // SQL query to fetch student details
-        String query = "SELECT student_id, first_name, last_name, program_id, email, number FROM student";
-        try (PreparedStatement stmt = dbConn.prepareStatement(query)) {
-            ResultSet result = stmt.executeQuery();
-            List<StudentModel> studentList = new ArrayList<>();
-
-            while (result.next()) {
-                // SQL query to fetch program name based on program_id
-                String programQuery = "SELECT name FROM program WHERE program_id = ?";
-                try (PreparedStatement programStmt = dbConn.prepareStatement(programQuery)) {
-                    programStmt.setInt(1, result.getInt("program_id"));
-                    ResultSet programResult = programStmt.executeQuery();
-
-                    ProgramModel programModel = new ProgramModel();
-                    if (programResult.next()) {
-                        // Set program name in the ProgramModel
-                        programModel.setName(programResult.getString("name"));
-                    }
-
-                    // Create and add StudentModel to the list
-                    studentList.add(new StudentModel(
-                        result.getInt("student_id"), // Student ID
-                        result.getString("first_name"), // First Name
-                        result.getString("last_name"), // Last Name
-                        programModel, // Associated Program
-                        result.getString("email"), // Email
-                        result.getString("number") // Phone Number
-                    ));
-
-                    programResult.close(); // Close ResultSet to avoid resource leaks
-                } catch (SQLException e) {
-                    // Log and handle exceptions related to program query execution
-                    e.printStackTrace();
-                    // Continue to process other students or handle this error appropriately
-                }
+            if (rs.next()) {
+                return rs.getInt(1);
             }
-            return studentList;
-        } catch (SQLException e) {
-            // Log and handle exceptions related to student query execution
+
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error fetching total users: " + e.getMessage());
             e.printStackTrace();
-            return null;
         }
+        return 0;
     }
+
+    // Get total number of products
+    public int getTotalProducts() {
+        String query = "SELECT COUNT(*) FROM product";
+        try (Connection conn = DbConfig.getDbConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error fetching total products: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // Get recent products (e.g., latest 5)
+    public List<ProductModel> getRecentProducts() {
+        List<ProductModel> products = new ArrayList<>();
+        String query = "SELECT * FROM product ORDER BY product_id DESC LIMIT 5";
+
+        try (Connection conn = DbConfig.getDbConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                ProductModel product = new ProductModel(
+                        rs.getInt("product_id"),
+                        rs.getString("product_name"),
+                        rs.getString("product_category"),
+                        rs.getString("product_description"),
+                        rs.getDouble("product_price"),
+                        rs.getInt("product_quantity"),
+                        rs.getString("image")
+                );
+                products.add(product);
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error fetching recent products: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return products;
+    }
+    
 }

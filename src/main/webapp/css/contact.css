@@ -1,0 +1,132 @@
+@charset "UTF-8";
+
+/* Main Content Styling */
+.contact-main {
+    padding-top: 80px;
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+}
+
+.contact-container {
+    max-width: 700px;
+    width: 90%;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.contact-container h1 {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.contact-subtitle {
+    font-size: 1rem;
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* Form Styling */
+.contact-form {
+    margin-top: 30px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #34495e;
+    font-size: 0.95rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #dfe6e9;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #088178;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(8, 129, 120, 0.1);
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #088178;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.submit-btn:hover {
+    background-color: #066a63;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(8, 129, 120, 0.2);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .contact-container {
+        padding: 30px 25px;
+        margin: 30px auto;
+    }
+    
+    .contact-container h1 {
+        font-size: 1.8rem;
+    }
+    
+    .contact-subtitle {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .contact-container {
+        padding: 25px 20px;
+        margin: 20px auto;
+    }
+    
+    .contact-form input,
+    .contact-form textarea {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .submit-btn {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+}

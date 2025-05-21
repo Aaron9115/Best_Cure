@@ -20,9 +20,10 @@ public class AuthenticationFilter implements Filter {
 
     private static final String LOGIN = "/login";
     private static final String REGISTER = "/register";
-    private static final String HOME = "/home";
     private static final String DASHBOARD = "/dashboard";
-    
+    private static final String HOME = "/home";
+    private static final String PROFILE = "/profile";
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         // Initialization logic if needed
@@ -37,7 +38,7 @@ public class AuthenticationFilter implements Filter {
 
         String uri = req.getRequestURI();
 
-        // Allow static resources
+        // Allow static resources without filtering
         if (uri.endsWith(".png") || uri.endsWith(".jpg") || uri.endsWith(".css") || uri.endsWith(".js")) {
             chain.doFilter(request, response);
             return;
@@ -54,7 +55,7 @@ public class AuthenticationFilter implements Filter {
             userRole = CookieUtil.getCookie(req, "role") != null ? CookieUtil.getCookie(req, "role").getValue() : null;
         }
 
-        // Normalize URI to context-relative
+       
         String path = uri.substring(req.getContextPath().length());
 
         // Admin access logic
@@ -75,14 +76,14 @@ public class AuthenticationFilter implements Filter {
         }
         // Guest (not logged in)
         else {
-            if (path.equals(LOGIN) || path.equals(REGISTER) || path.equals(HOME)) {
-                chain.doFilter(request, response);
-            } else {
+            // Only restrict /profile or /profile.jsp
+            if (path.equals(PROFILE) || path.equals(PROFILE + ".jsp")) {
                 res.sendRedirect(req.getContextPath() + LOGIN);
+            } else {
+                chain.doFilter(request, response); // Allow all other pages
             }
         }
     }
-
 
     @Override
     public void destroy() {

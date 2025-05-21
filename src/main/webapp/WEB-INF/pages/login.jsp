@@ -22,7 +22,7 @@
           <i class="fas fa-first-aid"></i> BestCure
         </div>
 
-        <!-- Display errorMessage if controller set one -->
+
         <c:if test="${not empty errorMessage}">
           <div class="error-message">${errorMessage}</div>
         </c:if>

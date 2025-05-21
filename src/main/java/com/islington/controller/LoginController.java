@@ -16,7 +16,7 @@ public class LoginController extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        loginService = new LoginService(); // Create the service instance once during servlet initialization
+        loginService = new LoginService(); // Initialize once
     }
 
     @Override
@@ -30,31 +30,36 @@ public class LoginController extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        // Validate input
         if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
             req.setAttribute("errorMessage", "Email and password are required.");
             req.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(req, resp);
             return;
         }
 
-        // Authenticate user via login service
         UserModel user = loginService.loginUser(email, password);
 
         if (user != null) {
-            // Create a session and store user data
-            HttpSession session = req.getSession();
+            // Invalidate old session to avoid stale data
+            HttpSession oldSession = req.getSession(false);
+            if (oldSession != null) {
+                oldSession.invalidate();
+                System.out.println("Old session invalidated.");
+            }
+            HttpSession session = req.getSession(true);
+
             session.setAttribute("user_id", user.getUserId());
             session.setAttribute("email", user.getEmail());
             session.setAttribute("role", user.getRole());
 
-            // Redirect based on user role
-            if ("admin".equals(user.getRole())) {
-                resp.sendRedirect(req.getContextPath() + "/dashboard"); // Admin dashboard
+            System.out.println("Logging in user with role: '" + user.getRole() + "'");
+            System.out.println("New session ID: " + session.getId());
+
+            if ("admin".equalsIgnoreCase(user.getRole())) {
+                resp.sendRedirect(req.getContextPath() + "/admin/dashboard");
             } else {
-                resp.sendRedirect(req.getContextPath() + "/home"); // User home page
+                resp.sendRedirect(req.getContextPath() + "/home");
             }
         } else {
-            // Login failed: Invalid credentials
             req.setAttribute("errorMessage", "Invalid email or password.");
             req.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(req, resp);
         }

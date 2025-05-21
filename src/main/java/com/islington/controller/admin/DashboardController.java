@@ -1,46 +1,48 @@
 package com.islington.controller.admin;
 
-import java.io.IOException;
-import java.util.List;
-
-import com.islington.model.ProductModel;
 import com.islington.service.DashboardService;
 import com.islington.service.OrderService;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
 
 @WebServlet("/admin/dashboard")
 public class DashboardController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
     private final DashboardService dashboardService = new DashboardService();
     private final OrderService orderService = new OrderService();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+
+        System.out.println("DashboardController session: " + session);
+        if (session != null) {
+            System.out.println("DashboardController role: " + session.getAttribute("role"));
+            System.out.println("DashboardController session ID: " + session.getId());
+        }
+
+        if (session == null || !"admin".equals(session.getAttribute("role"))) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
         try {
-            // Get statistics for the dashboard
-            int totalUsers = dashboardService.getTotalUsers(); // Total number of users
-            int totalProducts = dashboardService.getTotalProducts(); // Total number of products
-            int totalOrders = orderService.getTotalOrders(); // Total number of orders
-            List<ProductModel> recentProducts = dashboardService.getRecentProducts(); // Recent products added
+            request.setAttribute("totalUsers", dashboardService.getTotalUsers());
+            request.setAttribute("totalProducts", dashboardService.getTotalProducts());
+            request.setAttribute("totalOrders", orderService.getTotalOrders());
+            request.setAttribute("recentOrders", orderService.getRecentOrders(5));
 
-            // Set attributes for the JSP
-            request.setAttribute("totalUsers", totalUsers);
-            request.setAttribute("totalProducts", totalProducts);
-            request.setAttribute("totalOrders", totalOrders);
-            request.setAttribute("recentProducts", recentProducts);
-
-            // Forward to the dashboard JSP page
             request.getRequestDispatcher("/WEB-INF/pages/admin/dashboard.jsp").forward(request, response);
         } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("error", "An error occurred while loading the dashboard.");
-            request.getRequestDispatcher("/WEB-INF/pages/error.jsp").forward(request, response);
+            request.setAttribute("error", "Error loading dashboard: " + e.getMessage());
+            request.getRequestDispatcher("/WEB-INF/pages/admin/error.jsp").forward(request, response);
         }
     }
 }
