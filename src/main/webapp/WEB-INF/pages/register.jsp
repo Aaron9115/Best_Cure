@@ -23,48 +23,45 @@
         <div class="registration_form">
           <h2 class="title">Create Account</h2>
 
-          <!-- Display error message if there is any -->
           <c:if test="${not empty error}">
             <p class="error-message">${error}</p>
           </c:if>
 
-          <!-- Display success message if registration was successful -->
           <c:if test="${not empty success}">
             <p class="success-message">${success}</p>
           </c:if>
 
-          <!-- Registration Form -->
           <form action="${pageContext.request.contextPath}/register" method="post">
             <div class="form_wrap">
               <div class="input_grp">
                 <div class="input_wrap">
-                  <input type="text" id="firstName" name="firstName" placeholder="First Name" value="${firstName}" required />
+                  <input type="text" id="firstName" name="firstName" placeholder="First Name" value="${firstName}" />
                 </div>
                 <div class="input_wrap">
-                  <input type="text" id="lastName" name="lastName" placeholder="Last Name" value="${lastName}" required />
+                  <input type="text" id="lastName" name="lastName" placeholder="Last Name" value="${lastName}" />
                 </div>
               </div>
               <div class="input_wrap">
-                <input type="text" id="username" name="username" placeholder="Username" value="${username}" required />
+                <input type="text" id="username" name="username" placeholder="Username" value="${username}" />
               </div>
               <div class="input_wrap">
-                <input type="email" id="email" name="email" placeholder="Email Address" value="${email}" required />
+                <input type="text" id="email" name="email" placeholder="Email Address" value="${email}" />
               </div>
         
               <div class="input_wrap">
-                <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" value="${phoneNumber}" required pattern="^\d{10}$" title="Phone number must be 10 digits" />
+                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" value="${phoneNumber}" />
               </div>
               <div class="input_wrap">
-                <input type="password" id="password" name="password" placeholder="Password" required />
+                <input type="password" id="password" name="password" placeholder="Password" />
               </div>
               <div class="input_wrap">
-                <input type="password" id="retype-password" name="retypePassword" placeholder="Confirm Password" required />
+                <input type="password" id="retype-password" name="retypePassword" placeholder="Confirm Password" />
               </div>
               <div class="input_wrap gender-wrap">
                 <label>Gender</label>
                 <div class="gender-options">
                   <label class="gender-label">
-                    <input type="radio" name="gender" value="male" ${gender == 'male' ? 'checked' : ''} required />
+                    <input type="radio" name="gender" value="male" ${gender == 'male' ? 'checked' : ''} />
                     <span>Male</span>
                   </label>
                   <label class="gender-label">

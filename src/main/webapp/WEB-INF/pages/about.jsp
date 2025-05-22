@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-   <%@ include file="header.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,10 +9,13 @@
     <title>About Us - BestCure</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/about.css">
 </head>
+
 <body>
+
+    <!-- Header: Restored directly inside about.jsp -->
     <header>
         <div class="logo">
-            <a href="index.html">
+            <a href="index.jsp">
                 <img src="${pageContext.request.contextPath}/resources/about/logo.png" alt="Medicines" height="80">
             </a>
         </div>
@@ -32,7 +34,7 @@
         </div>
     </header>
 
-
+    <!-- Hero Section -->
     <section class="hero-section">
         <h1 class="hero-title">About BestCure</h1>
         <p class="hero-text">
@@ -43,6 +45,7 @@
         </p>
     </section>
 
+    <!-- Mission Section -->
     <section class="mission-section">
         <div class="mission-card">
             <div class="mission-icon"></div>
@@ -61,6 +64,7 @@
         </div>
     </section>
 
+    <!-- Core Values -->
     <section class="values-section">
         <h2 class="section-title">Our Core Values</h2>
         <div class="values-container">
@@ -87,6 +91,7 @@
         </div>
     </section>
 
+    <!-- Team Section -->
     <section class="team-section">
         <h2 class="section-title">Meet Our Team</h2>
         <div class="team-grid">
@@ -114,7 +119,7 @@
                     <p class="member-desc">Creatively connecting our solutions with the people who need them most.</p>
                 </div>
             </div>
-            <div class="team-member" ]>
+            <div class="team-member">
                 <img src="${pageContext.request.contextPath}/resources/about/Anishfauzadr.jpg" alt="Anish Fauzadr" class="member-img">
                 <div class="member-info">
                     <h3 class="member-name">Anish Fauzadr</h3>
@@ -133,9 +138,8 @@
         </div>
     </section>
 
-    <!-- ----Footer -->
-      <%@ include file="footer.jsp" %>
-    
-</body>
+    <!-- Footer Include -->
+    <%@ include file="footer.jsp" %>
 
+</body>
 </html>

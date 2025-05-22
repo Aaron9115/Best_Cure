@@ -1,9 +1,9 @@
-/* Main wrapper: add padding from top so content doesn't go under header */
+
 .main-wrapper {
-  padding: 80px 1rem 2rem; /* Adjust 80px if your header height differs */
+  padding: 80px 1rem 2rem;
   display: flex;
   justify-content: center;
-  background-color: #f5f7fa; /* subtle background */
+  background-color: #f5f7fa; 
   min-height: 100vh;
 }
 

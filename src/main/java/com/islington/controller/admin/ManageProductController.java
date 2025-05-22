@@ -31,7 +31,7 @@ public class ManageProductController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        System.out.println("\n==== Entering ManageProductController.doGet() ====");
+        System.out.println("Entering ManageProductController.doGet()");
         
         HttpSession session = request.getSession(false);
         

@@ -17,7 +17,6 @@
 				<i class="fas fa-first-aid"></i> BestCure
 			</div>
 
-
 			<c:if test="${not empty errorMessage}">
 				<div class="error-message">${errorMessage}</div>
 			</c:if>
@@ -26,15 +25,15 @@
 				<div class="form-field">
 					<label class="user" for="email"> <i class="fas fa-envelope"></i>
 						<span class="hidden">Email</span>
-					</label> <input id="email" type="email" class="form-input"
-						placeholder="Email" name="user_email" required />
+					</label> <input id="email" type="text" class="form-input"
+						placeholder="Email" name="user_email" />
 				</div>
 
 				<div class="form-field">
 					<label class="lock" for="password"> <i class="fas fa-lock"></i>
 						<span class="hidden">Password</span>
 					</label> <input id="password" type="password" class="form-input"
-						placeholder="Password" name="user_password" required />
+						placeholder="Password" name="user_password" />
 				</div>
 
 				<div class="form-field forget-password">

@@ -32,7 +32,7 @@
     </button>
     
     <ul class="navbar" id="navbar">
-        <li><a href="${pageContext.request.contextPath}/home" class="active">HOME</a></li>
+        <li><a href="${pageContext.request.contextPath}/home">HOME</a></li>
         <li><a href="${pageContext.request.contextPath}/products">SHOP</a></li>
         <li><a href="${pageContext.request.contextPath}/cart">CART</a></li>
         <li><a href="${pageContext.request.contextPath}/contact">CONTACT</a></li>
