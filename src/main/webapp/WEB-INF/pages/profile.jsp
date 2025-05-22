@@ -52,7 +52,7 @@
             </div>
             <div class="input-wrap">
               <label>Phone Number</label>
-              <input type="tel" name="phoneNumber" value="${user.phoneNumber}" placeholder="Enter phone number" readonly />
+              <input type="tel" name="phoneNumber" value="${user.phoneNumber}" placeholder="Enter Phone Number" readonly />
             </div>
             <div class="input-wrap">
               <label>Gender</label>

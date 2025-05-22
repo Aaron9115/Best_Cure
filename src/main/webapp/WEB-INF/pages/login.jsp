@@ -47,7 +47,7 @@
 				<div class="form-field">
 					Not Registered Yet? <a
 						href="${pageContext.request.contextPath}/register"
-						class="register-text">Register Here</a>
+						class="register-text">Register Here!</a>
 				</div>
 			</form>
 		</div>
@@ -55,7 +55,7 @@
 		<div class="motivation-section">
 			<img
 				src="https://www.umary.edu/sites/default/files/styles/optimized/public/2021-09/HealthSciences-Pharmacy-CustomerPharmacist.jpg?itok=8VQODnpg"
-				class="motivation-image" alt="Pharmacist" />
+				class="motivation-image" alt="Pharmacists" />
 		</div>
 	</div>
 </body>

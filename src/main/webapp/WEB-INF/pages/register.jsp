@@ -75,11 +75,11 @@
                 </div>
               </div>
               <div class="input_wrap">
-                <button type="submit" class="submit_btn">Register Now</button>
+                <button type="submit" class="submit_btn">Register Now!</button>
               </div>
               <div class="input_wrap text-center">
                 <span>Already have an account? </span>
-                <a href="${pageContext.request.contextPath}/login" class="login-text">Log In</a>
+                <a href="${pageContext.request.contextPath}/login" class="login-text">Login</a>
               </div>
             </div>
           </form>
